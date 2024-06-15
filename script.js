@@ -1,5 +1,40 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const wrestlers = [
+        { name: "レスラー1", weight: 100 },
+        { name: "レスラー2", weight: 90 },
+        { name: "レスラー3", weight: 110 },
+        { name: "レスラー4", weight: 85 },
+        { name: "レスラー5", weight: 95 }
+    ];
+
     let dragged;
+
+    function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    function createWrestlerElement(wrestler) {
+        const div = document.createElement('div');
+        div.className = 'wrestler';
+        div.draggable = true;
+        div.dataset.weight = wrestler.weight;
+        div.textContent = `${wrestler.name} (${wrestler.weight}kg)`;
+        return div;
+    }
+
+    function loadWrestlers() {
+        const container = document.getElementById('wrestlers');
+        container.innerHTML = '';
+        shuffle(wrestlers);
+        wrestlers.forEach(wrestler => {
+            container.appendChild(createWrestlerElement(wrestler));
+        });
+    }
+
+    loadWrestlers();
 
     document.addEventListener('dragstart', (event) => {
         dragged = event.target;
@@ -49,21 +84,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const result = document.getElementById('result');
         if (correctOrder) {
             result.textContent = '正解！新しいリストを表示します。';
-            shuffleWrestlers();
+            loadWrestlers();
         } else {
             result.textContent = '不正解。リスタートします。';
         }
     });
-
-    function shuffleWrestlers() {
-        const wrestlers = document.querySelectorAll('.wrestler');
-        const wrestlersArray = Array.from(wrestlers);
-        for (let i = wrestlersArray.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [wrestlersArray[i], wrestlersArray[j]] = [wrestlersArray[j], wrestlersArray[i]];
-        }
-        const wrestlersContainer = document.getElementById('wrestlers');
-        wrestlersContainer.innerHTML = '';
-        wrestlersArray.forEach(wrestler => wrestlersContainer.appendChild(wrestler));
-    }
 });
