@@ -1,47 +1,39 @@
 body {
-    margin: 0;
-    padding: 0;
+    font-family: Arial, sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #f0f0f0;
+    margin: 0;
 }
 
-.game-container {
-    display: flex;
-    width: 100%;
-    height: 100%;
-}
-
-.sidebar {
-    width: 20%;
-    background-color: #fff;
-    border-right: 2px solid #ccc;
-}
-
-.main-content {
-    flex: 1;
+#game {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    background-color: #eaeaea;
 }
 
-.character {
-    width: 100px;
-    height: 200px;
-    background-color: #ccc;
+#wrestlers {
+    display: flex;
+    flex-direction: column;
+    width: 200px;
     margin-bottom: 20px;
 }
 
-.action-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
+.wrestler {
+    padding: 10px;
+    margin: 5px 0;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    cursor: move;
 }
 
-.result {
-    text-align: center;
+#judgeButton {
+    padding: 10px 20px;
+    font-size: 16px;
+}
+
+#result {
+    margin-top: 20px;
+    font-size: 18px;
 }
