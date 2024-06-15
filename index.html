@@ -3,18 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>プロレスラー並べ替えゲーム</title>
-    <link rel="stylesheet" href="style.css">
+    <title>ブラウザゲーム</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="game">
-        <div id="wrestlers">
-            <!-- レスラー名が入る場所 -->
+    <div class="game-container">
+        <div class="sidebar" id="A"></div>
+        <div class="main-content">
+            <div class="character" id="B"></div>
+            <button class="action-button" id="C">判定</button>
+            <div class="result" id="result" style="display: none;">
+                <p id="result-text"></p>
+                <button id="tweet-button" style="display: none;">ツイート</button>
+            </div>
         </div>
-        <button id="judgeButton">判定</button>
-        <div id="result"></div>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/6.2.1/pixi.min.js"></script>
+    <script src="https://pixijs.download/release/pixi.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
