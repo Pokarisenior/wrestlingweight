@@ -1,43 +1,69 @@
-const wrestlers = [
-    { name: 'Wrestler 1', weight: 120 },
-    { name: 'Wrestler 2', weight: 150 },
-    { name: 'Wrestler 3', weight: 130 },
-    { name: 'Wrestler 4', weight: 140 },
-    { name: 'Wrestler 5', weight: 160 },
-];
+document.addEventListener('DOMContentLoaded', () => {
+    let dragged;
 
-// シャッフル関数
-function shuffle(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-}
-
-// プロレスラーのリストを描画
-function renderWrestlerList() {
-    const wrestlerListElement = document.getElementById('wrestlerList');
-    wrestlerListElement.innerHTML = '';
-    wrestlers.forEach(wrestler => {
-        const wrestlerDiv = document.createElement('div');
-        wrestlerDiv.textContent = wrestler.name;
-        wrestlerDiv.draggable = true;
-        wrestlerDiv.classList.add('wrestler');
-        wrestlerListElement.appendChild(wrestlerDiv);
+    document.addEventListener('dragstart', (event) => {
+        dragged = event.target;
+        event.target.style.opacity = 0.5;
     });
-}
 
-// 判定ボタンのクリックイベント
-document.getElementById('judgeButton').addEventListener('click', () => {
-    // 判定ロジックをここに追加
-    alert('判定ボタンが押されました');
+    document.addEventListener('dragend', (event) => {
+        event.target.style.opacity = "";
+    });
+
+    document.addEventListener('dragover', (event) => {
+        event.preventDefault();
+    });
+
+    document.addEventListener('dragenter', (event) => {
+        if (event.target.className === 'wrestler') {
+            event.target.style.background = "lightyellow";
+        }
+    });
+
+    document.addEventListener('dragleave', (event) => {
+        if (event.target.className === 'wrestler') {
+            event.target.style.background = "";
+        }
+    });
+
+    document.addEventListener('drop', (event) => {
+        event.preventDefault();
+        if (event.target.className === 'wrestler') {
+            event.target.style.background = "";
+            dragged.parentNode.removeChild(dragged);
+            event.target.parentNode.insertBefore(dragged, event.target.nextSibling);
+        }
+    });
+
+    document.getElementById('judgeButton').addEventListener('click', () => {
+        const wrestlers = document.querySelectorAll('.wrestler');
+        let correctOrder = true;
+
+        for (let i = 0; i < wrestlers.length - 1; i++) {
+            if (parseInt(wrestlers[i].dataset.weight) < parseInt(wrestlers[i + 1].dataset.weight)) {
+                correctOrder = false;
+                break;
+            }
+        }
+
+        const result = document.getElementById('result');
+        if (correctOrder) {
+            result.textContent = '正解！新しいリストを表示します。';
+            shuffleWrestlers();
+        } else {
+            result.textContent = '不正解。リスタートします。';
+        }
+    });
+
+    function shuffleWrestlers() {
+        const wrestlers = document.querySelectorAll('.wrestler');
+        const wrestlersArray = Array.from(wrestlers);
+        for (let i = wrestlersArray.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [wrestlersArray[i], wrestlersArray[j]] = [wrestlersArray[j], wrestlersArray[i]];
+        }
+        const wrestlersContainer = document.getElementById('wrestlers');
+        wrestlersContainer.innerHTML = '';
+        wrestlersArray.forEach(wrestler => wrestlersContainer.appendChild(wrestler));
+    }
 });
-
-// 初期化
-function init() {
-    shuffle(wrestlers);
-    renderWrestlerList();
-}
-
-init();
