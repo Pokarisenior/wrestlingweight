@@ -2,19 +2,15 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>プロレスラー並べ替えゲーム</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="gameContainer">
-        <div id="wrestlerList">
-            <!-- プロレスラーの名前リスト -->
-        </div>
-        <div id="actionArea">
-            <button id="judgeButton">判定</button>
-        </div>
-    </div>
-    <script src="https://pixijs.download/release/pixi.min.js"></script>
-    <script src="script.js"></script>
-</body>
-</html>
+    <div id="game">
+        <div id="wrestlers">
+            <div class="wrestler" draggable="true" data-weight="100">レスラー1 (100kg)</div>
+            <div class="wrestler" draggable="true" data-weight="90">レスラー2 (90kg)</div>
+            <div class="wrestler" draggable="true" data-weight="110">レスラー3 (110kg)</div>
+            <div class="wrestler" draggable="true" data-weight="85">レスラー4 (85kg)</div>
+            <div class="wrestler"
