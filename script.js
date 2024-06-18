@@ -1,92 +1,80 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const wrestlers = [
-        { name: "レスラー1", weight: 100 },
-        { name: "レスラー2", weight: 90 },
-        { name: "レスラー3", weight: 110 },
-        { name: "レスラー4", weight: 85 },
-        { name: "レスラー5", weight: 95 }
-    ];
+// プロレスラーのデータを定義
+const wrestlers = [
+    { name: 'アレックス・ゼイン', weight: 92 },
+    { name: '石井智宏', weight: 100 },
+    { name: '石森太二', weight: 75 },
+    { name: '岩谷麻優', weight: 50 },
+    { name: '“キング・オブ・ダークネス“EVIL', weight: 106 },
+    { name: '上村優也', weight: 100 },
+    { name: '海野翔太', weight: 103 },
+    { name: 'エディ・キングストン', weight: 111 },
+    { name: 'エル・デスペラード', weight: 0 },
+    { name: 'エル・ファンタズモ', weight: 84 },
+    { name: '大岩陵平', weight: 110 },
+    { name: 'オスカー・ロイべ', weight: 115 },
+    { name: '嘉藤匠馬', weight: 82 },
+    { name: '金丸義信', weight: 85 },
+    { name: 'カラム・ニューマン', weight: 89 },
+    { name: 'KUSHIDA', weight: 85 },
+    { name: 'クラーク・コナーズ', weight: 92 },
+    { name: 'グレート-O-カーン', weight: 120 },
+    { name: 'ケビン・ナイト', weight: 91 },
+    { name: 'KENTA', weight: 85 },
+    { name: 'ゲイブ・キッド', weight: 90 }
+];
 
-    let dragged;
+// ランダムに5人のプロレスラーを選ぶ関数
+function getRandomWrestlers() {
+    const shuffled = wrestlers.sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, 5);
+}
 
-    function shuffle(array) {
-        for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
+// プロレスラーのリストを生成する関数
+function createWrestlerList(wrestlers) {
+    const wrestlersDiv = document.getElementById('wrestlers');
+    wrestlersDiv.innerHTML = '';
+    wrestlers.forEach(wrestler => {
+        const wrestlerDiv = document.createElement('div');
+        wrestlerDiv.className = 'wrestler';
+        wrestlerDiv.textContent = wrestler.name;
+        wrestlerDiv.setAttribute('data-weight', wrestler.weight);
+        wrestlersDiv.appendChild(wrestlerDiv);
+    });
+}
+
+// 初回ロード時にリストを生成
+createWrestlerList(getRandomWrestlers());
+
+// Sortable.jsを使ってドラッグアンドドロップを有効にする
+new Sortable(document.getElementById('wrestlers'), {
+    animation: 150
+});
+
+// 判定ボタンのクリックイベントを設定
+document.getElementById('checkOrder').addEventListener('click', () => {
+    const wrestlersDiv = document.getElementById('wrestlers');
+    const wrestlerNodes = Array.from(wrestlersDiv.children);
+    let isCorrect = true;
+
+    // 並び替えた順番が正しいかどうかをチェック
+    for (let i = 0; i < wrestlerNodes.length - 1; i++) {
+        const currentWeight = parseInt(wrestlerNodes[i].getAttribute('data-weight'));
+        const nextWeight = parseInt(wrestlerNodes[i + 1].getAttribute('data-weight'));
+        if (currentWeight < nextWeight) {
+            isCorrect = false;
+            break;
         }
     }
 
-    function createWrestlerElement(wrestler) {
-        const div = document.createElement('div');
-        div.className = 'wrestler';
-        div.draggable = true;
-        div.dataset.weight = wrestler.weight;
-        div.textContent = `${wrestler.name} (${wrestler.weight}kg)`;
-        return div;
+    // 結果を表示
+    wrestlerNodes.forEach(node => {
+        node.textContent += ` (${node.getAttribute('data-weight')}kg)`;
+    });
+
+    if (isCorrect) {
+        alert('正解です！新しいゲームを始めます。');
+        createWrestlerList(getRandomWrestlers());
+    } else {
+        alert('不正解です。もう一度挑戦してください。');
     }
-
-    function loadWrestlers() {
-        const container = document.getElementById('wrestlers');
-        container.innerHTML = '';
-        shuffle(wrestlers);
-        wrestlers.forEach(wrestler => {
-            container.appendChild(createWrestlerElement(wrestler));
-        });
-    }
-
-    loadWrestlers();
-
-    document.addEventListener('dragstart', (event) => {
-        dragged = event.target;
-        event.target.style.opacity = 0.5;
-    });
-
-    document.addEventListener('dragend', (event) => {
-        event.target.style.opacity = "";
-    });
-
-    document.addEventListener('dragover', (event) => {
-        event.preventDefault();
-    });
-
-    document.addEventListener('dragenter', (event) => {
-        if (event.target.className === 'wrestler') {
-            event.target.style.background = "lightyellow";
-        }
-    });
-
-    document.addEventListener('dragleave', (event) => {
-        if (event.target.className === 'wrestler') {
-            event.target.style.background = "";
-        }
-    });
-
-    document.addEventListener('drop', (event) => {
-        event.preventDefault();
-        if (event.target.className === 'wrestler') {
-            event.target.style.background = "";
-            dragged.parentNode.removeChild(dragged);
-            event.target.parentNode.insertBefore(dragged, event.target.nextSibling);
-        }
-    });
-
-    document.getElementById('judgeButton').addEventListener('click', () => {
-        const wrestlers = document.querySelectorAll('.wrestler');
-        let correctOrder = true;
-
-        for (let i = 0; i < wrestlers.length - 1; i++) {
-            if (parseInt(wrestlers[i].dataset.weight) < parseInt(wrestlers[i + 1].dataset.weight)) {
-                correctOrder = false;
-                break;
-            }
-        }
-
-        const result = document.getElementById('result');
-        if (correctOrder) {
-            result.textContent = '正解！新しいリストを表示します。';
-            loadWrestlers();
-        } else {
-            result.textContent = '不正解。リスタートします。';
-        }
-    });
 });
