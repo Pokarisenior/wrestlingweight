@@ -21,6 +21,7 @@ h1 {
     padding: 10px;
     width: 80%;
     max-width: 300px;
+    font-size: 20px; /* 文字を少し大きく */
 }
 
 .wrestler {
