@@ -1,0 +1,30 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f4f4f4;
+}
+
+#wrestlers {
+    display: flex;
+    flex-direction: column;
+    margin: 20px auto;
+    padding: 10px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    width: 80%;
+    max-width: 300px;
+}
+
+.wrestler {
+    padding: 10px;
+    margin: 5px;
+    border: 1px solid #ddd;
+    background-color: #eee;
+    cursor: move;
+}
+
+button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+}
