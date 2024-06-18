@@ -1,89 +1,73 @@
-// プロレスラーのデータを定義
 const wrestlers = [
-    { name: 'アレックス・ゼイン', weight: 92 },
-    { name: '石井智宏', weight: 100 },
-    { name: '石森太二', weight: 75 },
-    { name: '岩谷麻優', weight: 50 },
-    { name: '“キング・オブ・ダークネス“EVIL', weight: 106 },
-    { name: '上村優也', weight: 100 },
-    { name: '海野翔太', weight: 103 },
-    { name: 'エディ・キングストン', weight: 111 },
-    { name: 'エル・デスペラード', weight: 0 },
-    { name: 'エル・ファンタズモ', weight: 84 },
-    { name: '大岩陵平', weight: 110 },
-    { name: 'オスカー・ロイべ', weight: 115 },
-    { name: '嘉藤匠馬', weight: 82 },
-    { name: '金丸義信', weight: 85 },
-    { name: 'カラム・ニューマン', weight: 89 },
-    { name: 'KUSHIDA', weight: 85 },
-    { name: 'クラーク・コナーズ', weight: 92 },
-    { name: 'グレート-O-カーン', weight: 120 },
-    { name: 'ケビン・ナイト', weight: 91 },
-    { name: 'KENTA', weight: 85 },
-    { name: 'ゲイブ・キッド', weight: 90 }
+    { name: "アレックス・ゼイン", weight: 92 },
+    { name: "石井智宏", weight: 100 },
+    { name: "石森太二", weight: 75 },
+    { name: "岩谷麻優", weight: 50 },
+    { name: "“キング・オブ・ダークネス“EVIL", weight: 106 },
+    { name: "上村優也", weight: 100 },
+    { name: "海野翔太", weight: 103 },
+    { name: "エディ・キングストン", weight: 111 },
+    { name: "エル・デスペラード", weight: 0 },
+    { name: "エル・ファンタズモ", weight: 84 },
+    { name: "大岩陵平", weight: 110 },
+    { name: "オスカー・ロイべ", weight: 115 },
+    { name: "嘉藤匠馬", weight: 82 },
+    { name: "金丸義信", weight: 85 },
+    { name: "カラム・ニューマン", weight: 89 },
+    { name: "KUSHIDA", weight: 85 },
+    { name: "クラーク・コナーズ", weight: 92 },
+    { name: "グレート-O-カーン", weight: 120 },
+    { name: "ケビン・ナイト", weight: 91 },
+    { name: "KENTA", weight: 85 },
+    { name: "ゲイブ・キッド", weight: 90 }
 ];
 
-// ランダムに5人のプロレスラーを選ぶ関数
-function getRandomWrestlers() {
-    const shuffled = wrestlers.sort(() => 0.5 - Math.random());
-    return shuffled.slice(0, 5);
-}
+function startGame() {
+    const selectedWrestlers = [];
+    const wrestlerElements = document.getElementById('wrestlers');
+    wrestlerElements.innerHTML = '';
 
-// プロレスラーのリストを生成する関数
-function createWrestlerList(wrestlers) {
-    const wrestlersDiv = document.getElementById('wrestlers');
-    wrestlersDiv.innerHTML = '';
-    wrestlers.forEach(wrestler => {
-        const wrestlerDiv = document.createElement('div');
-        wrestlerDiv.className = 'wrestler';
-        wrestlerDiv.textContent = wrestler.name;
-        wrestlerDiv.setAttribute('data-weight', wrestler.weight);
-        wrestlersDiv.appendChild(wrestlerDiv);
+    while (selectedWrestlers.length < 5) {
+        const randomIndex = Math.floor(Math.random() * wrestlers.length);
+        const selected = wrestlers[randomIndex];
+        if (!selectedWrestlers.includes(selected)) {
+            selectedWrestlers.push(selected);
+            const div = document.createElement('div');
+            div.className = 'wrestler';
+            div.draggable = true;
+            div.textContent = selected.name;
+            wrestlerElements.appendChild(div);
+        }
+    }
+
+    new Sortable(wrestlerElements, {
+        animation: 150
     });
 }
 
-// 初回ロード時にリストを生成
-createWrestlerList(getRandomWrestlers());
+document.getElementById('check-button').addEventListener('click', () => {
+    const wrestlerElements = document.getElementById('wrestlers').children;
+    let correct = true;
 
-// Sortable.jsを使ってドラッグアンドドロップを有効にする
-new Sortable(document.getElementById('wrestlers'), {
-    animation: 150
-});
+    for (let i = 0; i < wrestlerElements.length - 1; i++) {
+        const currentWrestler = wrestlers.find(wrestler => wrestler.name === wrestlerElements[i].textContent);
+        const nextWrestler = wrestlers.find(wrestler => wrestler.name === wrestlerElements[i + 1].textContent);
 
-// 判定ボタンのクリックイベントを設定
-document.getElementById('checkOrder').addEventListener('click', () => {
-    const wrestlersDiv = document.getElementById('wrestlers');
-    const wrestlerNodes = Array.from(wrestlersDiv.children);
-    let isCorrect = true;
-
-    // 並び替えた順番が正しいかどうかをチェック
-    for (let i = 0; i < wrestlerNodes.length - 1; i++) {
-        const currentWeight = parseInt(wrestlerNodes[i].getAttribute('data-weight'));
-        const nextWeight = parseInt(wrestlerNodes[i + 1].getAttribute('data-weight'));
-        if (currentWeight < nextWeight) {
-            isCorrect = false;
+        if (currentWrestler.weight < nextWrestler.weight) {
+            correct = false;
             break;
         }
     }
 
-    // 結果を表示
-    wrestlerNodes.forEach(node => {
-        node.textContent += ` (${node.getAttribute('data-weight')}kg)`;
-    });
-
-    // ボタンのテキストを「もう一問」に変更
-    const checkOrderButton = document.getElementById('checkOrder');
-    if (isCorrect) {
-        alert('正解です！新しいゲームを始めます。');
-        checkOrderButton.textContent = 'もう一問';
+    if (correct) {
+        alert('正解！次の問題に進みます。');
     } else {
-        alert('不正解です。もう一度挑戦してください。');
-        checkOrderButton.textContent = 'もう一問';
+        alert('不正解です。再挑戦してください。');
     }
 
-    // ボタンを押すと新しいゲームが始まるように設定
-    checkOrderButton.addEventListener('click', () => {
-        createWrestlerList(getRandomWrestlers());
-        checkOrderButton.textContent = '判定'; // ボタンのテキストを元に戻す
-    }, { once: true });
+    // Update button text and restart game
+    document.getElementById('check-button').textContent = 'もう一問';
+    startGame();
 });
+
+startGame();
