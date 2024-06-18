@@ -22,7 +22,10 @@ const wrestlers = [
     { name: "ゲイブ・キッド", weight: 90 }
 ];
 
+let gameStarted = true;
+
 function startGame() {
+    gameStarted = true;
     const selectedWrestlers = [];
     const wrestlerElements = document.getElementById('wrestlers');
     wrestlerElements.innerHTML = '';
@@ -43,11 +46,22 @@ function startGame() {
     new Sortable(wrestlerElements, {
         animation: 150
     });
+
+    // ボタンのテキストを「判定」に戻す
+    document.getElementById('check-button').textContent = '判定';
 }
 
-document.getElementById('check-button').addEventListener('click', () => {
+function showWeightsAndJudge() {
     const wrestlerElements = document.getElementById('wrestlers').children;
     let correct = true;
+
+    for (let i = 0; i < wrestlerElements.length; i++) {
+        const currentWrestler = wrestlers.find(wrestler => wrestler.name === wrestlerElements[i].textContent);
+        const weightSpan = document.createElement('span');
+        weightSpan.className = 'weight';
+        weightSpan.textContent = ` (${currentWrestler.weight}kg)`;
+        wrestlerElements[i].appendChild(weightSpan);
+    }
 
     for (let i = 0; i < wrestlerElements.length - 1; i++) {
         const currentWrestler = wrestlers.find(wrestler => wrestler.name === wrestlerElements[i].textContent);
@@ -65,9 +79,17 @@ document.getElementById('check-button').addEventListener('click', () => {
         alert('不正解です。再挑戦してください。');
     }
 
-    // Update button text and restart game
+    // ボタンのテキストを「もう一問」に変更
     document.getElementById('check-button').textContent = 'もう一問';
-    startGame();
+    gameStarted = false;
+}
+
+document.getElementById('check-button').addEventListener('click', () => {
+    if (gameStarted) {
+        showWeightsAndJudge();
+    } else {
+        startGame();
+    }
 });
 
 startGame();
