@@ -71,10 +71,19 @@ document.getElementById('checkOrder').addEventListener('click', () => {
         node.textContent += ` (${node.getAttribute('data-weight')}kg)`;
     });
 
+    // ボタンのテキストを「もう一問」に変更
+    const checkOrderButton = document.getElementById('checkOrder');
     if (isCorrect) {
         alert('正解です！新しいゲームを始めます。');
-        createWrestlerList(getRandomWrestlers());
+        checkOrderButton.textContent = 'もう一問';
     } else {
         alert('不正解です。もう一度挑戦してください。');
+        checkOrderButton.textContent = 'もう一問';
     }
+
+    // ボタンを押すと新しいゲームが始まるように設定
+    checkOrderButton.addEventListener('click', () => {
+        createWrestlerList(getRandomWrestlers());
+        checkOrderButton.textContent = '判定'; // ボタンのテキストを元に戻す
+    }, { once: true });
 });
