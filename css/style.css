@@ -10,6 +10,10 @@ body {
     margin: 50px auto;
 }
 
+h1 {
+    color:#333;
+}
+
 #wrestlers {
     display: flex;
     flex-direction: column;
