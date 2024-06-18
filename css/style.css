@@ -4,14 +4,22 @@ body {
     background-color: #f0f0f0;
 }
 
+#title-container {
+    margin: 20px auto;
+    width: 90%;
+    max-width: 600px;
+}
+
+#title-image {
+    width: 100%;
+    height: auto;
+    max-width: 600px;
+}
+
 #game-container {
     width: 90%;
     max-width: 600px;
     margin: 50px auto;
-}
-
-h1 {
-    color:#333;
 }
 
 #wrestlers {
@@ -36,6 +44,7 @@ h1 {
     font-size: 24px;
     font-weight: bold;
 }
+
 button {
     margin-top: 20px;
     padding: 10px 20px;
