@@ -4,13 +4,27 @@ body {
     background-color: #f4f4f4;
 }
 
+#game {
+    background-image: url('../images/background.png');
+    background-size: cover;
+    background-position: center;
+    padding: 20px;
+    border-radius: 10px;
+    display: inline-block;
+}
+
+h1 {
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
 #wrestlers {
     display: flex;
     flex-direction: column;
     margin: 20px auto;
     padding: 10px;
     border: 1px solid #ddd;
-    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.8);
     width: 80%;
     max-width: 300px;
 }
@@ -21,6 +35,9 @@ body {
     border: 1px solid #ddd;
     background-color: #eee;
     cursor: move;
+    font-weight: bold; /* 文字を太字に */
+    font-family: 'Arial', sans-serif; /* ゴシック体に */
+    font-size: 18px; /* 文字を少し大きく */
 }
 
 button {
