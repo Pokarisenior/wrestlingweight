@@ -1,3 +1,4 @@
+// レスラーの情報をリストとして定義しています
 const wrestlers = [
     { name: "アレックス・ゼイン", weight: 92 },
     { name: "石井智宏", weight: 100 },
@@ -22,39 +23,49 @@ const wrestlers = [
     { name: "ゲイブ・キッド", weight: 90 }
 ];
 
+// ゲームの開始状態を示すフラグ
 let gameStarted = true;
 
+// ゲームを開始する関数
 function startGame() {
+    // ゲームが開始された状態に設定
     gameStarted = true;
+    // 選ばれたレスラーを格納する配列
     const selectedWrestlers = [];
+    // HTML要素を取得してクリア
     const wrestlerElements = document.getElementById('wrestlers');
     wrestlerElements.innerHTML = '';
 
+    // ランダムに5人のレスラーを選ぶ
     while (selectedWrestlers.length < 5) {
         const randomIndex = Math.floor(Math.random() * wrestlers.length);
         const selected = wrestlers[randomIndex];
+        // すでに選ばれていない場合のみ追加
         if (!selectedWrestlers.includes(selected)) {
             selectedWrestlers.push(selected);
             const div = document.createElement('div');
             div.className = 'wrestler';
-            div.draggable = true;
-            div.textContent = selected.name;
+            div.draggable = true; // ドラッグできるようにする
+            div.textContent = selected.name; // 名前を表示
             wrestlerElements.appendChild(div);
         }
     }
 
+    // 選んだレスラーをドラッグ&ドロップできるようにする
     new Sortable(wrestlerElements, {
         animation: 150
     });
 
-    // ボタンのテキストを「判定」に戻す
+    // ボタンのテキストを「判定」に変更
     document.getElementById('check-button').textContent = '判定';
 }
 
+// 重量を表示し、正解かどうかを判定する関数
 function showWeightsAndJudge() {
     const wrestlerElements = document.getElementById('wrestlers').children;
     let correct = true;
 
+    // 各レスラーの重量を表示
     for (let i = 0; i < wrestlerElements.length; i++) {
         const currentWrestler = wrestlers.find(wrestler => wrestler.name === wrestlerElements[i].textContent);
         const weightSpan = document.createElement('span');
@@ -63,6 +74,7 @@ function showWeightsAndJudge() {
         wrestlerElements[i].appendChild(weightSpan);
     }
 
+    // 重量が降順かどうかを確認
     for (let i = 0; i < wrestlerElements.length - 1; i++) {
         const currentWrestler = wrestlers.find(wrestler => wrestler.name === wrestlerElements[i].textContent);
         const nextWrestler = wrestlers.find(wrestler => wrestler.name === wrestlerElements[i + 1].textContent);
@@ -73,6 +85,7 @@ function showWeightsAndJudge() {
         }
     }
 
+    // 判定結果を表示
     if (correct) {
         alert('正解！次の問題に進みます。');
     } else {
@@ -81,9 +94,10 @@ function showWeightsAndJudge() {
 
     // ボタンのテキストを「もう一問」に変更
     document.getElementById('check-button').textContent = 'もう一問';
-    gameStarted = false;
+    gameStarted = false; // ゲームの状態をリセット
 }
 
+// ボタンをクリックしたときの処理を設定
 document.getElementById('check-button').addEventListener('click', () => {
     if (gameStarted) {
         showWeightsAndJudge();
@@ -92,4 +106,5 @@ document.getElementById('check-button').addEventListener('click', () => {
     }
 });
 
+// ゲームを初期化して開始
 startGame();
