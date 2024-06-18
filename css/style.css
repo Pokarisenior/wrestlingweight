@@ -60,15 +60,21 @@ body {
     font-weight: bold;
 }
 
+.weight {
+    margin-left: 10px;
+    font-size: 18px;
+    font-weight: normal;
+}
+
 button {
     margin-top: 20px;
     padding: 10px 20px;
-    font-size: 32px;
+    font-size: 52px;
     font-weight: bold;
     background-color: #007BFF;
     color: white;
     border: none;
-    border-radius: 0px;
+    border-radius: 5px;
     cursor: pointer;
 }
 
