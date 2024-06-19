@@ -73,7 +73,6 @@ function showWeightsAndJudge() {
         weightSpan.textContent = ` (${currentWrestler.weight}kg)`;
         wrestlerElements[i].appendChild(weightSpan);
     }
-          
 
     // 重量が降順かどうかを確認
     for (let i = 0; i < wrestlerElements.length - 1; i++) {
