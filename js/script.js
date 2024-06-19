@@ -118,7 +118,7 @@ document.getElementById('check-button').addEventListener('click', () => {
     if (gameStarted) {
         // ゲームが開始されている場合、順序を判定してから重量を表示
         judgeOrder();
-//        showWeights();
+        showWeights();
     } else {
         // ゲームが開始されていない場合、新しいゲームを開始
         startGame();
