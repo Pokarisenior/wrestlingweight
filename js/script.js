@@ -68,14 +68,12 @@ function showWeightsAndJudge() {
     // 各レスラーの重量を表示
     for (let i = 0; i < wrestlerElements.length; i++) {
         const currentWrestler = wrestlers.find(wrestler => wrestler.name === wrestlerElements[i].textContent);
-     if(!wresrlerElements[i].querySelector('.weight')){
         const weightSpan = document.createElement('span');
         weightSpan.className = 'weight';
         weightSpan.textContent = ` (${currentWrestler.weight}kg)`;
         wrestlerElements[i].appendChild(weightSpan);
-     }
     }
-        
+          
 
     // 重量が降順かどうかを確認
     for (let i = 0; i < wrestlerElements.length - 1; i++) {
