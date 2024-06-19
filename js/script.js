@@ -97,7 +97,7 @@ function judgeOrder() {
 }
 
 // 各レスラーの重量を表示する関数
-//function showWeights() {
+function showWeights() {
     // レスラーの要素を取得
     const wrestlerElements = document.getElementById('wrestlers').children;
 
