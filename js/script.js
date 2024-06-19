@@ -67,7 +67,11 @@ function showWeightsAndJudge() {
 
     // 各レスラーの重量を表示
     for (let i = 0; i < wrestlerElements.length; i++) {
-        const currentWrestler = wrestlers.find(wrestler => wrestler.name === wrestlerElements[i].textContent);
+        const currentWrestler = wrestlers.find(wrestler => wrestler.name === wrestlerElements[i].textContent.replace(/\s+\(\d+kg\)$/, ''));
+        if (!currentWrestler) {
+            correct = false;
+            continue;
+        }
         const weightSpan = document.createElement('span');
         weightSpan.className = 'weight';
         weightSpan.textContent = ` (${currentWrestler.weight}kg)`;
@@ -76,8 +80,8 @@ function showWeightsAndJudge() {
 
     // 重量が降順かどうかを確認
     for (let i = 0; i < wrestlerElements.length - 1; i++) {
-        const currentWrestler = wrestlers.find(wrestler => wrestler.name === wrestlerElements[i].textContent);
-        const nextWrestler = wrestlers.find(wrestler => wrestler.name === wrestlerElements[i + 1].textContent);
+        const currentWrestler = wrestlers.find(wrestler => wrestler.name === wrestlerElements[i].textContent.replace(/\s+\(\d+kg\)$/, ''));
+        const nextWrestler = wrestlers.find(wrestler => wrestler.name === wrestlerElements[i + 1].textContent.replace(/\s+\(\d+kg\)$/, ''));
 
         if (currentWrestler.weight < nextWrestler.weight) {
             correct = false;
