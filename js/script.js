@@ -38,11 +38,14 @@ function startGame() {
 
     // ランダムに5人のレスラーを選ぶ
     while (selectedWrestlers.length < 5) {
+        // ランダムなインデックスを生成
         const randomIndex = Math.floor(Math.random() * wrestlers.length);
         const selected = wrestlers[randomIndex];
         // すでに選ばれていない場合のみ追加
         if (!selectedWrestlers.includes(selected)) {
+            // 選ばれたレスラーを配列に追加
             selectedWrestlers.push(selected);
+            // レスラーの情報を表示するためのdiv要素を作成
             const div = document.createElement('div');
             div.className = 'wrestler';
             div.draggable = true; // ドラッグできるようにする
@@ -60,29 +63,19 @@ function startGame() {
     document.getElementById('check-button').textContent = '判定';
 }
 
-// 重量を表示し、正解かどうかを判定する関数
-function showWeightsAndJudge() {
+// 重量が降順かどうかを判定する関数
+function judgeOrder() {
+    // レスラーの要素を取得
     const wrestlerElements = document.getElementById('wrestlers').children;
     let correct = true;
 
-    // 各レスラーの重量を表示
-    for (let i = 0; i < wrestlerElements.length; i++) {
-        const currentWrestler = wrestlers.find(wrestler => wrestler.name === wrestlerElements[i].textContent.replace(/\s+\(\d+kg\)$/, ''));
-        if (!currentWrestler) {
-            correct = false;
-            continue;
-        }
-        const weightSpan = document.createElement('span');
-        weightSpan.className = 'weight';
-        weightSpan.textContent = ` (${currentWrestler.weight}kg)`;
-        wrestlerElements[i].appendChild(weightSpan);
-    }
-
     // 重量が降順かどうかを確認
     for (let i = 0; i < wrestlerElements.length - 1; i++) {
+        // 現在のレスラーと次のレスラーの情報を取得
         const currentWrestler = wrestlers.find(wrestler => wrestler.name === wrestlerElements[i].textContent.replace(/\s+\(\d+kg\)$/, ''));
         const nextWrestler = wrestlers.find(wrestler => wrestler.name === wrestlerElements[i + 1].textContent.replace(/\s+\(\d+kg\)$/, ''));
 
+        // 重量が降順になっているか確認
         if (currentWrestler.weight < nextWrestler.weight) {
             correct = false;
             break;
@@ -94,18 +87,40 @@ function showWeightsAndJudge() {
         alert('正解！次の問題に進みます。');
     } else {
         alert('不正解です。再挑戦してください。');
+
     }
 
     // ボタンのテキストを「もう一問」に変更
     document.getElementById('check-button').textContent = 'もう一問';
-    gameStarted = false; // ゲームの状態をリセット
+    // ゲームの状態をリセット
+    gameStarted = false;
+}
+
+// 各レスラーの重量を表示する関数
+function showWeights() {
+    // レスラーの要素を取得
+    const wrestlerElements = document.getElementById('wrestlers').children;
+
+    // 各レスラーの重量を表示
+    for (let i = 0; i < wrestlerElements.length; i++) {
+        // レスラーの名前からレスラー情報を検索
+        const currentWrestler = wrestlers.find(wrestler => wrestler.name === wrestlerElements[i].textContent.replace(/\s+\(\d+kg\)$/, ''));
+        // 重量を表示するためのspan要素を作成
+        const weightSpan = document.createElement('span');
+        weightSpan.className = 'weight';
+        weightSpan.textContent = ` (${currentWrestler.weight}kg)`;
+        wrestlerElements[i].appendChild(weightSpan);
+    }
 }
 
 // ボタンをクリックしたときの処理を設定
 document.getElementById('check-button').addEventListener('click', () => {
     if (gameStarted) {
-        showWeightsAndJudge();
+        // ゲームが開始されている場合、順序を判定してから重量を表示
+        judgeOrder();
+        showWeights();
     } else {
+        // ゲームが開始されていない場合、新しいゲームを開始
         startGame();
     }
 });
