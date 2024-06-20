@@ -26,6 +26,9 @@ const wrestlers = [
 // ゲームの開始状態を示すフラグ
 let gameStarted = true;
 
+// Sortableのインスタンスを保持する変数
+let sortable = null;
+
 // ゲームを開始する関数
 function startGame() {
     // ゲームが開始された状態に設定
@@ -54,8 +57,13 @@ function startGame() {
         }
     }
 
-    // 選んだレスラーをドラッグ&ドロップできるようにする
-    new Sortable(wrestlerElements, {
+    // 以前のSortableインスタンスがあれば、それを破棄
+    if (sortable) {
+        sortable.destroy();
+    }
+
+    // 新しいSortableインスタンスを作成
+    sortable = new Sortable(wrestlerElements, {
         animation: 150
     });
 
@@ -87,7 +95,6 @@ function judgeOrder() {
         alert('正解！次の問題に進みます。');
     } else {
         alert('不正解です。再挑戦してください。');
-
     }
 
     // ボタンのテキストを「もう一問」に変更
@@ -114,16 +121,3 @@ function showWeights() {
 }
 
 // ボタンをクリックしたときの処理を設定
-document.getElementById('check-button').addEventListener('click', () => {
-    if (gameStarted) {
-        // ゲームが開始されている場合、順序を判定してから重量を表示
-        judgeOrder();
-        showWeights();
-    } else {
-        // ゲームが開始されていない場合、新しいゲームを開始
-        startGame();
-    }
-});
-
-// ゲームを初期化して開始
-startGame();
