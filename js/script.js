@@ -1,4 +1,4 @@
-// レスラーの情報をリストとして定義しています
+z// レスラーの情報をリストとして定義しています
 const wrestlers = [
     { name: "アレックス・ゼイン", weight: 92 },
     { name: "石井智宏", weight: 100 },
@@ -121,3 +121,16 @@ function showWeights() {
 }
 
 // ボタンをクリックしたときの処理を設定
+document.getElementById('check-button').addEventListener('click', () => {
+    if (gameStarted) {
+        // ゲームが開始されている場合、順序を判定してから重量を表示
+        judgeOrder();
+        showWeights();
+    } else {
+        // ゲームが開始されていない場合、新しいゲームを開始
+        startGame();
+    }
+});
+
+// ゲームを初期化して開始
+startGame();
