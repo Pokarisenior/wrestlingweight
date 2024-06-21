@@ -72,7 +72,7 @@ body {
     margin-left: 10px; /* 左の余白を10pxに設定 */
     font-size: 14px; /* フォントサイズを18pxに設定 */
     font-weight: normal; /* フォントの太さを通常に設定 */
-    margin-top: 0px; /* 名前と体重の間に適度なスペースを確保 */
+    margin-top: -12px; /* 名前と体重の間に適度なスペースを確保 */
 }
 
 
