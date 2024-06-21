@@ -108,29 +108,5 @@ function showWeights() {
     // レスラーの要素を取得
     const wrestlerElements = document.getElementById('wrestlers').children;
 
-    // 各レスラーの重量を表示
-    for (let i = 0; i < wrestlerElements.length; i++) {
-        // レスラーの名前からレスラー情報を検索
-        const currentWrestler = wrestlers.find(wrestler => wrestler.name === wrestlerElements[i].textContent.replace(/\s+\(\d+kg\)$/, ''));
-        // 重量を表示するためのspan要素を作成
-        const weightSpan = document.createElement('span');
-        weightSpan.className = 'weight';
-        weightSpan.textContent = ` (${currentWrestler.weight}kg)`;
-        wrestlerElements[i].appendChild(weightSpan);
-    }
-}
-
-// ボタンをクリックしたときの処理を設定
-document.getElementById('check-button').addEventListener('click', () => {
-    if (gameStarted) {
-        // ゲームが開始されている場合、順序を判定してから重量を表示
-        judgeOrder();
-        showWeights();
-    } else {
-        // ゲームが開始されていない場合、新しいゲームを開始
-        startGame();
-    }
-});
-
-// ゲームを初期化して開始
-startGame();
+// 各レスラーの重量を表示
+for (let i = 0; i < wrestlerElements
