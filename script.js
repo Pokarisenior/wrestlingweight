@@ -84,7 +84,7 @@ const wrestlers = [
     {name: "ランス・アーチャー", weight: 120},
     {name: "ロイス・アイザックス", weight: 110},
     {name: "ロッキー・ロメロ", weight: 80},
-    {name: "ロビー・イーグルス", weight: 80}
+    {name: "ロビー・イーグルス", weight: 80},
 ];
 
 // ゲームの開始状態を示すフラグ
