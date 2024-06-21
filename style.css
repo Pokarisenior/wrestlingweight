@@ -20,6 +20,8 @@ body {
     box-sizing: border-box; /* 境界線とパディングを含めたボックスサイズを設定 */
     padding: 10px; /* 内側の余白を10pxに設定 */
     position: relative;
+    margin-top:  0;
+    margin-left:  0;
 }
 
 #title-container {
