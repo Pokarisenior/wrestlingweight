@@ -20,8 +20,8 @@ body {
     box-sizing: border-box; /* 境界線とパディングを含めたボックスサイズを設定 */
     padding: 10px; /* 内側の余白を10pxに設定 */
     position: absolute;
-    top:  0;
-    left:  0;
+    left:0;
+    top:0;   
 }
 
 #title-container {
@@ -50,7 +50,6 @@ body {
     border-radius: 10px; /* 角を10px丸くする */
     width: 60%; /* 幅を60%に設定 */
     max-height:80%;
-    align-itmes:flex-start;/*小要素を左に寄せる*/
 }
 
 .wrestler {
@@ -65,12 +64,15 @@ body {
     font-size: 14px; /* フォントサイズを24pxに設定 */
     font-weight: bold; /* フォントを太字に設定 */
     margin-left:-10px;
+    display: flex;
+    flex-direction: column; /* 縦方向に要素を並べる */
 }
 
 .weight {
     margin-left: 10px; /* 左の余白を10pxに設定 */
     font-size: 14px; /* フォントサイズを18pxに設定 */
     font-weight: normal; /* フォントの太さを通常に設定 */
+    margin-top: 0px; /* 名前と体重の間に適度なスペースを確保 */
 }
 
 
