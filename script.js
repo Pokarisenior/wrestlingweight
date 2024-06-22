@@ -84,7 +84,7 @@ const wrestlers = [
     {name: "ランス・アーチャー", weight: 120},
     {name: "ロイス・アイザックス", weight: 110},
     {name: "ロッキー・ロメロ", weight: 80},
-    {name: "ロビー・イーグルス", weight: 80},
+    {name: "ロビー・イーグルス", weight: 80}
 ];
 
 // ゲームの開始状態を示すフラグ
@@ -173,4 +173,37 @@ function showWeights() {
     const wrestlerElements = document.getElementById('wrestlers').children;
 
 // 各レスラーの重量を表示
-for (let i = 0; i < wrestlerElements
+for (let i = 0; i < wrestlerElements.length; i++) {
+    // レスラーの名前からレスラー情報を検索
+    const currentWrestler = wrestlers.find(wrestler => wrestler.name === wrestlerElements[i].textContent.replace(/\s+\(\d+kg\)$/, ''));
+    
+    // レスラーの名前要素をクリアして、新しい要素を追加
+    wrestlerElements[i].textContent = ''; // 名前をクリア
+    const nameP = document.createElement('p'); // 名前用のp要素を作成
+    nameP.textContent = currentWrestler.name; // 名前を設定
+    wrestlerElements[i].appendChild(nameP); // 名前用のp要素を追加
+
+    // 重量を表示するためのp要素を作成
+    const weightP = document.createElement('p');
+    weightP.className = 'weight';
+    weightP.textContent = `(${currentWrestler.weight}kg)`;
+    
+    // レスラーの名前の下に体重を追加
+    wrestlerElements[i].appendChild(weightP);
+}
+}
+
+// ボタンをクリックしたときの処理を設定
+document.getElementById('check-button').addEventListener('click', () => {
+    if (gameStarted) {
+        // ゲームが開始されている場合、順序を判定してから重量を表示
+        judgeOrder();
+        showWeights();
+    } else {
+        // ゲームが開始されていない場合、新しいゲームを開始
+        startGame();
+    }
+});
+
+// ゲームを初期化して開始
+startGame();
