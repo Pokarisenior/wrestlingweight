@@ -37,8 +37,8 @@ body {
 #title-image {
     width: auto; /* 幅を自動調整 */
     height: auto; /* 高さを自動調整 */
-    max-width: 150%; /* 最大幅を親要素の幅に合わせる */
-	 margin-left:20px;
+    max-width: 180%; /* 最大幅を親要素の幅に合わせる *
+　　　margin-left:20px;
 
 }
 
