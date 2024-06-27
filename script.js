@@ -88,10 +88,14 @@ const wrestlers = [
 ];
 
 // ゲームの開始状態を示すフラグ
-let gameStarted = true;
+let gameStarted = false;
+
+// 連続正解のカウントを保持する変数
+let consecutiveCorrectCount = 0;
 
 // Sortableのインスタンスを保持する変数
 let sortable = null;
+
 
 // ゲームを開始する関数
 function startGame() {
@@ -133,7 +137,32 @@ function startGame() {
 
     // ボタンのテキストを「判定」に変更
     document.getElementById('check-button').textContent = '判定';
+	
+　　//正解不正解画像を非表示にする
+　　const Seikai = document.getElementById('seikai');
+	Seikai.style.visibility = 'hidden';
+ 	 const countElement = document.getElementById('count');
+   countElement.style.visibility= 'hidden';
+};
+
+
+//side-imageの画像の表示非表示を切り替える
+function Call(){
+        // #side-image の visibility を切り替える
+        const sideImage = document.getElementById('side-image');
+        sideImage.style.visibility = sideImage.style.visibility === 'hidden' ? 'visible' : 'hidden';
+};
+
+//seikaiの画像の表示非表示を切り替える関数
+function TrueCall(correct) {
+    const Seikai = document.getElementById('seikai');
+    Seikai.style.visibility = correct ? 'visible' : 'hidden';
+    // HTMLの要素を取得して、テキストとして表示する
+	 const countElement = document.getElementById('count');
+	 countElement.textContent = ` ${consecutiveCorrectCount}`;
+    countElement.style.visibility = correct ? 'visible' : 'hidden';
 }
+
 
 // 重量が降順かどうかを判定する関数
 function judgeOrder() {
@@ -156,9 +185,14 @@ function judgeOrder() {
 
     // 判定結果を表示
     if (correct) {
-        alert('正解！次の問題に進みます。');
+		　consecutiveCorrectCount++; // 連続正解のカウントをインクリメント
+        Call();
+        TrueCall(true);
     } else {
+     　 consecutiveCorrectCount = 0; // 不正解の場合、カウントをリセット
         alert('不正解です。再挑戦してください。');
+		  Call();
+        TrueCall(false);
     }
 
     // ボタンのテキストを「もう一問」に変更
@@ -192,8 +226,16 @@ for (let i = 0; i < wrestlerElements.length; i++) {
     wrestlerElements[i].appendChild(weightP);
 }
 }
+//side-imageの画像の表示非表示を切り替える
+function Call(){
+        // #side-image の visibility を切り替える
+        const sideImage = document.getElementById('side-image');
+        sideImage.style.visibility = sideImage.style.visibility === 'hidden' ? 'visible' : 'hidden';
 
-// ボタンをクリックしたときの処理を設定
+};
+
+
+// 判定ボタンをクリックしたときの処理を設定
 document.getElementById('check-button').addEventListener('click', () => {
     if (gameStarted) {
         // ゲームが開始されている場合、順序を判定してから重量を表示
@@ -202,8 +244,8 @@ document.getElementById('check-button').addEventListener('click', () => {
     } else {
         // ゲームが開始されていない場合、新しいゲームを開始
         startGame();
+		  Call();
     }
 });
-
 // ゲームを初期化して開始
 startGame();
