@@ -1,11 +1,11 @@
-<!<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>レスラー体重並べ替えゲーム</title>
     <link rel="stylesheet" href="style.css">
-　　    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
 </head>
 <body>
     <div id="frame-container">
@@ -14,8 +14,13 @@
         </div>
         <div id="game-container">
             <div id="wrestlers"></div>
+            <div id="image-container">
+            <div id="side-image"></div> <!-- img/call.png はここに配置 -->
+                <div id="seikai"></div> <!-- img/Naito.png はここに配置 -->
+            </div>
             <button id="check-button">判定</button>
         </div>
+<div id="count"></div>
     </div>
     <script src="script.js"></script>
 </body>
