@@ -1,7 +1,7 @@
 body {
     font-family: Arial, sans-serif; /* 全体のフォントをArialに設定 */
     text-align: center; /* テキストを中央寄せ */
-    background-color: f0f0f0; /* 背景色を紺色に設定 */
+    background-color: #f0f0f0; /* 背景色を薄いグレーに設定 */
     display: flex; /* Flexboxレイアウトを使用 */
     justify-content: center; /* 子要素を水平中央寄せ */
     align-items: center; /* 子要素を垂直中央寄せ */
@@ -20,8 +20,8 @@ body {
     box-sizing: border-box; /* 境界線とパディングを含めたボックスサイズを設定 */
     padding: 10px; /* 内側の余白を10pxに設定 */
     position: absolute;
-    left: 10px;
-    top: 10px;
+    left:10px;
+    top:10px;
     background: url("img/back.png") no-repeat center center; /* 背景画像を設定 */
     background-size: cover; /* 背景画像を全体にカバーするように調整 */
 }
@@ -82,7 +82,7 @@ body {
 }
 
 button {
-    position: relative; /* ボタンを絶対位置に設定 */
+    position: relative; /* ボタンを相対位置に設定 */
     top: 430px; /* 上端から50%の位置に配置 */
     left: 3px; /* 左端から50%の位置に配置 */
     width: 200px; /* 幅を200pxに固定 */
@@ -95,8 +95,44 @@ button {
     border: none; /* 境界線をなしに設定 */
     border-radius: 5px; /* 角を5px丸くする */
     cursor: pointer; /* カーソルをポインタに変更 */
+    z-index: 4; /* ボタンを前面に表示 */
 }
 
 button:hover {
     background-color: #0056b3; /* ホバー時の背景色を濃い青に設定 */
+}
+
+/* 画像をframe-containerの中の右側に表示するためのスタイル */
+/* 修正されたスタイル */
+#side-image {
+    position: absolute;
+    top: 0;
+    right: 0%;
+    width: 50%; /* 必要に応じて調整 */
+    height: 100%;
+    background: url("img/call.png") no-repeat center center;
+    background-size: contain; /* 背景画像のサイズを調整 */
+    z-index: 3; /* seikai より手前に表示 */
+}
+
+#seikai {
+    position: absolute;
+    top: 22px;
+    left: 50%;
+    width: 50%; /* 必要に応じて調整 */
+    height: 100%;
+    background: url("img/Naito.png") no-repeat center center;
+    background-size: contain; /* 背景画像のサイズを調整 */
+    z-index: 1; /* side-image より奥に表示 */
+}
+
+#count {
+    position: absolute;
+    font-size: 68px;
+    font-weight: bold;
+    right: 125px;
+    top: 125px;
+    color: black; /* テキストの色を黒に設定 */
+   -webkit-text-stroke: 1px white; /* 白で1pxの線をテキストに描画 */
+    z-index: 2;
 }
