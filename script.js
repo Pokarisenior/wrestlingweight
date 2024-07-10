@@ -191,7 +191,7 @@ function displayTitle(consecutiveCorrectCount) {
     kekkaElement.style.visibility = 'visible';
 
     const tweetButton = document.getElementById('tweet-button');
-    const tweetText = `${consecutiveCorrectCount}問正解、ランクは${title}です。#新日WS`https://pokarisenior.github.io/ ;
+    const tweetText = `${consecutiveCorrectCount}問正解、ランクは${title}です。#新日WS https://pokarisenior.github.io/wrestlingweight/;
     const tweetUrl = `https://twitter.com/share?text=${encodeURIComponent(tweetText)}&ref_src=twsrc%5Etfw`;
     tweetButton.href = tweetUrl;
     tweetButton.style.visibility = 'visible';
