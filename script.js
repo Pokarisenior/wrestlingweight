@@ -86,166 +86,171 @@ const wrestlers = [
     {name: "ロッキー・ロメロ", weight: 80},
     {name: "ロビー・イーグルス", weight: 80}
 ];
-
-// ゲームの開始状態を示すフラグ
 let gameStarted = false;
-
-// 連続正解のカウントを保持する変数
 let consecutiveCorrectCount = 0;
-
-// Sortableのインスタンスを保持する変数
 let sortable = null;
 
-
-// ゲームを開始する関数
 function startGame() {
-    // ゲームが開始された状態に設定
     gameStarted = true;
-    // 選ばれたレスラーを格納する配列
     const selectedWrestlers = [];
-    // HTML要素を取得してクリア
     const wrestlerElements = document.getElementById('wrestlers');
     wrestlerElements.innerHTML = '';
 
-    // ランダムに5人のレスラーを選ぶ
     while (selectedWrestlers.length < 5) {
-        // ランダムなインデックスを生成
         const randomIndex = Math.floor(Math.random() * wrestlers.length);
         const selected = wrestlers[randomIndex];
-        // すでに選ばれていない場合のみ追加
         if (!selectedWrestlers.includes(selected)) {
-            // 選ばれたレスラーを配列に追加
             selectedWrestlers.push(selected);
-            // レスラーの情報を表示するためのdiv要素を作成
             const div = document.createElement('div');
             div.className = 'wrestler';
-            div.draggable = true; // ドラッグできるようにする
-            div.textContent = selected.name; // 名前を表示
+            div.draggable = true;
+            div.textContent = selected.name;
             wrestlerElements.appendChild(div);
         }
     }
 
-    // 以前のSortableインスタンスがあれば、それを破棄
     if (sortable) {
         sortable.destroy();
     }
 
-    // 新しいSortableインスタンスを作成
     sortable = new Sortable(wrestlerElements, {
         animation: 150
     });
 
-    // ボタンのテキストを「判定」に変更
     document.getElementById('check-button').textContent = '判定';
-	
-　　//正解不正解画像を非表示にする
-　　const Seikai = document.getElementById('seikai');
-	Seikai.style.visibility = 'hidden';
- 	 const countElement = document.getElementById('count');
-   countElement.style.visibility= 'hidden';
-};
+    document.getElementById('seikai').style.visibility = 'hidden';
+    document.getElementById('count').style.visibility = 'hidden';
+    document.getElementById('zannen').style.visibility = 'hidden';
+    document.getElementById('kekka').style.visibility = 'hidden';
+    document.getElementById('tweet-button').style.visibility = 'hidden';
+}
 
+function Call() {
+    const sideImage = document.getElementById('side-image');
+    sideImage.style.visibility = sideImage.style.visibility === 'hidden' ? 'visible' : 'hidden';
+}
 
-//side-imageの画像の表示非表示を切り替える
-function Call(){
-        // #side-image の visibility を切り替える
-        const sideImage = document.getElementById('side-image');
-        sideImage.style.visibility = sideImage.style.visibility === 'hidden' ? 'visible' : 'hidden';
-};
-
-//seikaiの画像の表示非表示を切り替える関数
 function TrueCall(correct) {
     const Seikai = document.getElementById('seikai');
     Seikai.style.visibility = correct ? 'visible' : 'hidden';
-    // HTMLの要素を取得して、テキストとして表示する
-	 const countElement = document.getElementById('count');
-	 countElement.textContent = ` ${consecutiveCorrectCount}`;
+    const countElement = document.getElementById('count');
+    countElement.textContent = ` ${consecutiveCorrectCount}`;
     countElement.style.visibility = correct ? 'visible' : 'hidden';
 }
 
+function FalseCall(correct) {
+    const Zannen = document.getElementById('zannen');
+    Zannen.style.visibility = correct ? 'visible' : 'hidden';
+    const kekkaElement = document.getElementById('kekka');
+    kekkaElement.style.visibility = correct ? 'visible' : 'hidden';
+}
 
-// 重量が降順かどうかを判定する関数
+function displayTitle(consecutiveCorrectCount) {
+    let title;
+
+    switch (consecutiveCorrectCount) {
+        case 0:
+            title = "ち○ぽ野郎";
+            break;
+        case 1:
+            title = "カブロン";
+            break;
+        case 2:
+            title = "宇和島の恥";
+            break;
+        case 3:
+            title = "愚鈍な餅";
+            break;
+        case 4:
+            title = "ヤングライオン";
+            break;
+        case 5:
+            title = "HP担当者";
+            break;
+        case 6:
+            title = "ゲスト解説";
+            break;
+        case 7:
+            title = "真社長";
+            break;
+        case 8:
+            title = "神";
+            break;
+        case 9:
+            title = "新社長";
+            break;
+        default:
+            if (consecutiveCorrectCount >= 10) {
+                title = "闘魂";
+            }
+    }
+
+    const kekkaElement = document.getElementById('kekka');
+    kekkaElement.innerText = title;
+    kekkaElement.style.visibility = 'visible';
+
+    const tweetButton = document.getElementById('tweet-button');
+    const tweetText = `${consecutiveCorrectCount}問正解、ランクは${title}です。#新日WS`;
+    const tweetUrl = `https://twitter.com/share?text=${encodeURIComponent(tweetText)}&ref_src=twsrc%5Etfw`;
+    tweetButton.href = tweetUrl;
+    tweetButton.style.visibility = 'visible';
+}
+
 function judgeOrder() {
-    // レスラーの要素を取得
     const wrestlerElements = document.getElementById('wrestlers').children;
     let correct = true;
 
-    // 重量が降順かどうかを確認
     for (let i = 0; i < wrestlerElements.length - 1; i++) {
-        // 現在のレスラーと次のレスラーの情報を取得
-        const currentWrestler = wrestlers.find(wrestler => wrestler.name === wrestlerElements[i].textContent.replace(/\s+\(\d+kg\)$/, ''));
-        const nextWrestler = wrestlers.find(wrestler => wrestler.name === wrestlerElements[i + 1].textContent.replace(/\s+\(\d+kg\)$/, ''));
-
-        // 重量が降順になっているか確認
+        const currentWrestler = wrestlers.find(wrestler => wrestler.name === wrestlerElements[i].textContent);
+        const nextWrestler = wrestlers.find(wrestler => wrestler.name === wrestlerElements[i + 1].textContent);
         if (currentWrestler.weight < nextWrestler.weight) {
             correct = false;
             break;
         }
     }
 
-    // 判定結果を表示
     if (correct) {
-		　consecutiveCorrectCount++; // 連続正解のカウントをインクリメント
+        consecutiveCorrectCount++;
         Call();
         TrueCall(true);
+        FalseCall(false);
+　　    document.getElementById('check-button').textContent = 'もう一問';
+
     } else {
-     　 consecutiveCorrectCount = 0; // 不正解の場合、カウントをリセット
-        alert('不正解です。再挑戦してください。');
-		  Call();
+        Call();
         TrueCall(false);
+        FalseCall(true);
+　　     displayTitle(consecutiveCorrectCount);       			consecutiveCorrectCount = 0;
+	    document.getElementById('check-button').textContent = '再挑戦';
     }
 
-    // ボタンのテキストを「もう一問」に変更
-    document.getElementById('check-button').textContent = 'もう一問';
-    // ゲームの状態をリセット
     gameStarted = false;
 }
 
-// 各レスラーの重量を表示する関数
 function showWeights() {
-    // レスラーの要素を取得
     const wrestlerElements = document.getElementById('wrestlers').children;
 
-// 各レスラーの重量を表示
-for (let i = 0; i < wrestlerElements.length; i++) {
-    // レスラーの名前からレスラー情報を検索
-    const currentWrestler = wrestlers.find(wrestler => wrestler.name === wrestlerElements[i].textContent.replace(/\s+\(\d+kg\)$/, ''));
-    
-    // レスラーの名前要素をクリアして、新しい要素を追加
-    wrestlerElements[i].textContent = ''; // 名前をクリア
-    const nameP = document.createElement('p'); // 名前用のp要素を作成
-    nameP.textContent = currentWrestler.name; // 名前を設定
-    wrestlerElements[i].appendChild(nameP); // 名前用のp要素を追加
-
-    // 重量を表示するためのp要素を作成
-    const weightP = document.createElement('p');
-    weightP.className = 'weight';
-    weightP.textContent = `(${currentWrestler.weight}kg)`;
-    
-    // レスラーの名前の下に体重を追加
-    wrestlerElements[i].appendChild(weightP);
+    for (let i = 0; i < wrestlerElements.length; i++) {
+        const currentWrestler = wrestlers.find(wrestler => wrestler.name === wrestlerElements[i].textContent);
+        wrestlerElements[i].textContent = '';
+        const nameP = document.createElement('p');
+        nameP.textContent = currentWrestler.name;
+        wrestlerElements[i].appendChild(nameP);
+        const weightP = document.createElement('p');
+        weightP.className = 'weight';
+        weightP.textContent = `(${currentWrestler.weight}kg)`;
+        wrestlerElements[i].appendChild(weightP);
+    }
 }
-}
-//side-imageの画像の表示非表示を切り替える
-function Call(){
-        // #side-image の visibility を切り替える
-        const sideImage = document.getElementById('side-image');
-        sideImage.style.visibility = sideImage.style.visibility === 'hidden' ? 'visible' : 'hidden';
 
-};
-
-
-// 判定ボタンをクリックしたときの処理を設定
 document.getElementById('check-button').addEventListener('click', () => {
     if (gameStarted) {
-        // ゲームが開始されている場合、順序を判定してから重量を表示
         judgeOrder();
         showWeights();
     } else {
-        // ゲームが開始されていない場合、新しいゲームを開始
         startGame();
-		  Call();
+        Call();
     }
 });
-// ゲームを初期化して開始
+
 startGame();
