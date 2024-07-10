@@ -191,8 +191,8 @@ function displayTitle(consecutiveCorrectCount) {
     kekkaElement.style.visibility = 'visible';
 
     const tweetButton = document.getElementById('tweet-button');
-    const tweetText = `${consecutiveCorrectCount}問正解、ランクは${title}です。#新日WS https://pokarisenior.github.io/wrestlingweight/;
-    const tweetUrl = `https://twitter.com/share?text=${encodeURIComponent(tweetText)}&ref_src=twsrc%5Etfw`;
+    const tweetText = `${consecutiveCorrectCount}問正解、ランクは${title}です。#新日WShttps://pokarisenior.github.io/wrestlingweight/`;
+  const tweetUrl = `https://twitter.com/share?text=${encodeURIComponent(tweetText)}&ref_src=twsrc%5Etfw`;
     tweetButton.href = tweetUrl;
     tweetButton.style.visibility = 'visible';
 }
@@ -221,8 +221,7 @@ function judgeOrder() {
         Call();
         TrueCall(false);
         FalseCall(true);
-　　     displayTitle(consecutiveCorrectCount);       			
-	    consecutiveCorrectCount = 0;
+　　     displayTitle(consecutiveCorrectCount);       			consecutiveCorrectCount = 0;
 	    document.getElementById('check-button').textContent = '再挑戦';
     }
 
