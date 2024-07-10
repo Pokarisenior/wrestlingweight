@@ -177,3 +177,13 @@ button:hover {
     z-index: 6;
 
 }
+
+
+#setumei{
+	 position: absolute;
+    font-size: 12px;
+    left:5px;
+    top: 630px;
+    text-align: left;
+}       
+
