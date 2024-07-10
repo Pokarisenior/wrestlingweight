@@ -221,7 +221,8 @@ function judgeOrder() {
         Call();
         TrueCall(false);
         FalseCall(true);
-　　     displayTitle(consecutiveCorrectCount);       			consecutiveCorrectCount = 0;
+　　     displayTitle(consecutiveCorrectCount);       			
+	    consecutiveCorrectCount = 0;
 	    document.getElementById('check-button').textContent = '再挑戦';
     }
 
