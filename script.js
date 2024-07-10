@@ -1,6 +1,7 @@
 // レスラーの情報をリストとして定義しています
 const wrestlers = [
     { name: "アレックス・ゼイン", weight: 92 },
+    { name: "アレックス・コグリン", weight: 93 },
     { name: "石井智宏", weight: 100 },
     { name: "石森太二", weight: 75 },
     { name: "岩谷麻優", weight: 50 },
