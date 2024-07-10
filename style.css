@@ -71,7 +71,7 @@ body {
     justify-content: center; /* 子要素を中央寄せ */
     font-size: 14px;
     font-weight: bold;
-    margin-left: -10px;
+    margin-left: -20px;
     box-sizing: border-box; /* パディングを含めたサイズ計算 */
 }
 
@@ -84,7 +84,7 @@ body {
 button {
     position: relative; /* ボタンを相対位置に設定 */
     top: 430px; /* 上端から50%の位置に配置 */
-    left: 3px; /* 左端から50%の位置に配置 */
+    left: -10px; /* 左端から50%の位置に配置 */
     width: 200px; /* 幅を200pxに固定 */
     height: 50px; /* 高さを50pxに固定 */
     padding: 10px 20px; /* 内側の余白を上下10px、左右20pxに設定 */
@@ -95,7 +95,7 @@ button {
     border: none; /* 境界線をなしに設定 */
     border-radius: 5px; /* 角を5px丸くする */
     cursor: pointer; /* カーソルをポインタに変更 */
-    z-index: 4; /* ボタンを前面に表示 */
+    z-index: 7; /* ボタンを前面に表示 */
 }
 
 button:hover {
@@ -112,7 +112,7 @@ button:hover {
     height: 100%;
     background: url("img/call.png") no-repeat center center;
     background-size: contain; /* 背景画像のサイズを調整 */
-    z-index: 3; /* seikai より手前に表示 */
+    z-index: 5; /* seikai より手前に表示 */
 }
 
 #seikai {
@@ -126,6 +126,19 @@ button:hover {
     z-index: 1; /* side-image より奥に表示 */
 }
 
+#zannen {
+    position: absolute;
+    top: 25px;
+    left: 180px;
+    width: 50%; /* 必要に応じて調整 */
+    height: 100%;
+    background: url("img/Kenta.png") no-repeat center center;
+    background-size: contain; /* 背景画像のサイズを調整 */
+    z-index: 2; /* side-image より奥に表示 */
+}
+
+
+
 #count {
     position: absolute;
     font-size: 68px;
@@ -134,5 +147,33 @@ button:hover {
     top: 125px;
     color: black; /* テキストの色を黒に設定 */
    -webkit-text-stroke: 1px white; /* 白で1pxの線をテキストに描画 */
-    z-index: 2;
+    z-index: 3;
+}
+
+
+#kekka {
+    position: absolute;
+    font-size: 24px;
+    font-weight: bold;
+    left: 190px;
+    top: 470px;
+    color: white; /* テキストの色を黒に設定 */
+    z-index: 4;
+}
+
+/* 必要ならスタイルを追加 */
+#tweet-button {
+    display: block;
+    position: absolute;
+    font-size: 10px;
+    left:295px;
+    top: 515px;
+    padding: 5px;
+    background-color: black;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    z-index: 6;
+
 }
